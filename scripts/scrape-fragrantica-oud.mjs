@@ -165,6 +165,16 @@ function normalizeImageUrl(url) {
   return null;
 }
 
+function extractPerfumeIdFromUrl(url) {
+  const idMatch = url.match(/-(\d+)\.html$/);
+  return idMatch ? Number.parseInt(idMatch[1], 10) : null;
+}
+
+function buildPackshotUrl(perfumeId) {
+  if (!perfumeId) return null;
+  return `https://fimgs.net/mdimg/perfume-thumbs/375x500.${perfumeId}.jpg`;
+}
+
 async function enrichPerfumeDetails(browser, discovered) {
   const urls = [...discovered.keys()].slice(0, MAX_DETAIL_PAGES);
   const details = [];
@@ -204,7 +214,12 @@ async function enrichPerfumeDetails(browser, discovered) {
         $("p").first().text().trim() ||
         "";
 
+      const perfumeIdFromUrl = extractPerfumeIdFromUrl(canonical);
       const imageUrl =
+        buildPackshotUrl(perfumeIdFromUrl) ||
+        normalizeImageUrl(
+          $('img[src*="/mdimg/perfume-thumbs/375x500."]').first().attr("src"),
+        ) ||
         normalizeImageUrl($('meta[property="og:image"]').attr("content")) ||
         normalizeImageUrl(jsonLd?.image) ||
         normalizeImageUrl(discovered.get(url)?.listingImageUrl) ||
@@ -241,8 +256,7 @@ async function enrichPerfumeDetails(browser, discovered) {
       const ratingCount =
         Number.parseInt(jsonLd?.aggregateRating?.ratingCount ?? "", 10) || null;
 
-      const idMatch = canonical.match(/-(\d+)\.html$/);
-      const id = idMatch ? Number.parseInt(idMatch[1], 10) : null;
+      const id = perfumeIdFromUrl;
       const slug = canonical
         .split("/")
         .pop()
@@ -284,13 +298,15 @@ async function enrichPerfumeDetails(browser, discovered) {
 function buildAppPayload(records) {
   const cleaned = records
     .filter((item) => item.name && item.url && item.imageUrl)
-    .map((item) => ({
-      id: item.id ?? null,
+    .map((item) => {
+      const perfumeId = item.id ?? extractPerfumeIdFromUrl(item.url);
+      return {
+      id: perfumeId ?? null,
       slug: item.slug,
       name: item.name,
       brand: item.brand ?? "Unknown Brand",
       url: item.url,
-      imageUrl: item.imageUrl,
+      imageUrl: buildPackshotUrl(perfumeId) ?? item.imageUrl,
       launchYear: item.launchYear,
       ratingValue: item.ratingValue,
       ratingCount: item.ratingCount,
@@ -298,7 +314,7 @@ function buildAppPayload(records) {
       notes: item.notes,
       description: item.description,
       sources: item.sources,
-    }));
+    }});
 
   cleaned.sort((a, b) => {
     const ratingA = a.ratingValue ?? -1;
