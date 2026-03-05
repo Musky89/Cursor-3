@@ -1,0 +1,6 @@
+oud-platform/node_modules/
+oud-platform/.next/
+oud-platform/*.tsbuildinfo
+oud-platform/next-env.d.ts
+data/images/
+scraper/__pycache__/
