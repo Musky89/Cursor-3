@@ -24,28 +24,28 @@ export default async function DirectoryPage({ searchParams }: Props) {
   });
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <main className="lux-container py-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-amber-300">Fragrance Directory</p>
-          <h1 className="mt-1 text-2xl font-semibold text-zinc-100 sm:text-3xl">
+          <p className="lux-kicker">Fragrance Directory</p>
+          <h1 className="mt-1 font-serif text-3xl text-zinc-100 sm:text-4xl">
             Oud catalog ({filtered.length})
           </h1>
         </div>
       </div>
 
-      <form className="mb-8 grid gap-3 rounded-xl border border-zinc-800 bg-zinc-900/70 p-4 sm:grid-cols-[2fr_1fr_auto]">
+      <form className="lux-panel mb-8 grid gap-3 p-4 sm:grid-cols-[2fr_1fr_auto]">
         <input
           type="text"
           name="q"
           defaultValue={params.q ?? ""}
           placeholder="Search by name, brand, note..."
-          className="rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none ring-amber-300 transition focus:ring-2"
+          className="rounded-xl border border-[color:var(--line)] bg-black/40 px-4 py-2.5 text-sm text-zinc-100 outline-none ring-[color:var(--gold)] transition focus:ring-2"
         />
         <select
           name="brand"
           defaultValue={brand}
-          className="rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none ring-amber-300 transition focus:ring-2"
+          className="rounded-xl border border-[color:var(--line)] bg-black/40 px-4 py-2.5 text-sm text-zinc-100 outline-none ring-[color:var(--gold)] transition focus:ring-2"
         >
           <option value="">All brands</option>
           {oudBrands.map((entry) => (
@@ -56,7 +56,7 @@ export default async function DirectoryPage({ searchParams }: Props) {
         </select>
         <button
           type="submit"
-          className="rounded-md bg-amber-300 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-amber-200"
+          className="rounded-xl bg-[color:var(--gold)] px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-[color:var(--gold-soft)]"
         >
           Filter
         </button>

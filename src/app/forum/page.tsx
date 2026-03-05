@@ -27,23 +27,25 @@ const forumSections = [
 
 export default function ForumPage() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <p className="text-xs uppercase tracking-[0.2em] text-amber-300">Community</p>
-      <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Oud Forum</h1>
-      <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-300">
-        Structure discussions around practical discovery, deep enthusiast knowledge, and launch
-        conversations that matter to premium brands.
-      </p>
+    <main className="lux-container py-10">
+      <div className="lux-panel p-7 sm:p-8">
+        <p className="lux-kicker">Community</p>
+        <h1 className="mt-2 font-serif text-4xl text-zinc-100">Oud Forum</h1>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-300">
+          Structure discussions around practical discovery, deep enthusiast knowledge, and launch
+          conversations that matter to premium brands.
+        </p>
+      </div>
 
       <section className="mt-8 space-y-3">
         {forumSections.map((section) => (
           <article
             key={section.title}
-            className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4 sm:p-5"
+            className="lux-panel p-4 sm:p-5"
           >
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold text-zinc-100">{section.title}</h2>
+                <h2 className="font-serif text-2xl text-zinc-100">{section.title}</h2>
                 <p className="mt-1 text-sm text-zinc-300">{section.description}</p>
               </div>
               <dl className="grid grid-cols-2 gap-2 text-xs text-zinc-300">
@@ -54,13 +56,22 @@ export default function ForumPage() {
           </article>
         ))}
       </section>
+
+      <div className="lux-panel mt-8 p-6">
+        <h2 className="font-serif text-2xl text-zinc-100">Planned interaction model</h2>
+        <ul className="mt-3 space-y-2 text-sm text-zinc-300">
+          <li>• Weighted review credibility (owner verification + wear history).</li>
+          <li>• Brand-tagged launch threads with moderator-verified announcements.</li>
+          <li>• Structured “compare” threads for scent profile and longevity decisions.</li>
+        </ul>
+      </div>
     </main>
   );
 }
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded border border-zinc-700 bg-zinc-950 px-3 py-2 text-right">
+    <div className="rounded-xl border border-[color:var(--line)] bg-black/35 px-3 py-2 text-right">
       <dt className="uppercase tracking-wide text-zinc-400">{label}</dt>
       <dd className="mt-1 text-sm font-semibold text-zinc-100">{value}</dd>
     </div>

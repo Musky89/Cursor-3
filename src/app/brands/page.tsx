@@ -33,28 +33,30 @@ const packages = [
 
 export default function BrandsPage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <p className="text-xs uppercase tracking-[0.2em] text-amber-300">Monetization</p>
-      <h1 className="mt-2 text-3xl font-semibold text-zinc-100">
-        Premium Oud brand launch program
-      </h1>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">
-        Start with community trust and organic discovery, then sell launch outcomes. Packages are
-        designed for premium houses that want qualified enthusiasts instead of generic reach.
-      </p>
+    <main className="lux-container py-10">
+      <div className="lux-panel p-7 sm:p-8">
+        <p className="lux-kicker">Monetization</p>
+        <h1 className="mt-2 font-serif text-4xl text-zinc-100">
+          Premium Oud brand launch program
+        </h1>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-300">
+          Start with community trust and organic discovery, then sell launch outcomes. Packages are
+          designed for premium houses that want qualified enthusiasts instead of generic reach.
+        </p>
+      </div>
 
       <section className="mt-8 grid gap-4 md:grid-cols-3">
         {packages.map((pkg) => (
           <article
             key={pkg.name}
-            className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-xl shadow-black/20"
+            className="lux-panel p-5"
           >
-            <h2 className="text-lg font-semibold text-zinc-100">{pkg.name}</h2>
-            <p className="mt-1 text-amber-300">{pkg.price}</p>
+            <h2 className="font-serif text-2xl text-zinc-100">{pkg.name}</h2>
+            <p className="mt-1 text-[color:var(--gold-soft)]">{pkg.price}</p>
             <ul className="mt-4 space-y-2 text-sm text-zinc-300">
               {pkg.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-2">
-                  <span className="text-amber-300">•</span>
+                  <span className="text-[color:var(--gold)]">•</span>
                   <span>{bullet}</span>
                 </li>
               ))}
@@ -62,6 +64,14 @@ export default function BrandsPage() {
           </article>
         ))}
       </section>
+
+      <div className="lux-panel mt-8 p-6">
+        <h2 className="font-serif text-2xl text-zinc-100">Execution promise to partner brands</h2>
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-zinc-300">
+          This is not ad inventory. Each launch is packaged with audience education, discussion
+          hooks, and post-drop performance reporting so brands can track qualified demand.
+        </p>
+      </div>
     </main>
   );
 }

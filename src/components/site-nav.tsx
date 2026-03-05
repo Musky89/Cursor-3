@@ -9,15 +9,21 @@ const links = [
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="text-sm font-semibold tracking-[0.2em] text-amber-300">
+    <header className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[color:var(--background)]/85 backdrop-blur-xl">
+      <nav className="lux-container flex items-center justify-between py-3">
+        <Link
+          href="/"
+          className="font-serif text-xl tracking-[0.14em] text-[color:var(--gold-soft)]"
+        >
           OUD ATLAS
         </Link>
-        <ul className="flex items-center gap-4 text-sm text-zinc-200 sm:gap-6">
+        <ul className="flex items-center gap-2 text-sm text-zinc-200 sm:gap-3">
           {links.map((link) => (
             <li key={link.href}>
-              <Link className="transition hover:text-amber-300" href={link.href}>
+              <Link
+                className="rounded-full px-3 py-1.5 transition hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--gold-soft)]"
+                href={link.href}
+              >
                 {link.label}
               </Link>
             </li>

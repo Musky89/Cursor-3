@@ -1,23 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  --background: #070605;
+  --foreground: #efe7da;
+  --surface: #11100e;
+  --surface-soft: #171512;
+  --line: #2a2621;
+  --gold: #d8b36c;
+  --gold-soft: #f4d8a2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(216, 179, 108, 0.1), transparent 35%),
+    radial-gradient(circle at 80% 5%, rgba(244, 216, 162, 0.08), transparent 30%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
 main {
   min-height: calc(100vh - 57px);
+}
+
+.lux-container {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
+.lux-panel {
+  @apply rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)]/90 shadow-2xl shadow-black/40;
+}
+
+.lux-kicker {
+  @apply text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)];
+}
+
+.lux-title {
+  @apply font-serif text-4xl leading-tight tracking-tight text-zinc-100 sm:text-5xl;
 }
