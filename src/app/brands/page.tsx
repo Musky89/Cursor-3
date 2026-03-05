@@ -35,13 +35,13 @@ export default function BrandsPage() {
   return (
     <main className="lux-container py-10">
       <div className="lux-panel p-7 sm:p-8">
-        <p className="lux-kicker">Monetization</p>
+        <p className="lux-eyebrow">For Fragrance Houses</p>
         <h1 className="mt-2 font-serif text-4xl text-zinc-100">
           Premium Oud brand launch program
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-300">
-          Start with community trust and organic discovery, then sell launch outcomes. Packages are
-          designed for premium houses that want qualified enthusiasts instead of generic reach.
+          Your launches deserve an environment with tone, story, and informed audiences. We publish
+          introductions like editorial work — not banner placements.
         </p>
       </div>
 
@@ -68,8 +68,8 @@ export default function BrandsPage() {
       <div className="lux-panel mt-8 p-6">
         <h2 className="font-serif text-2xl text-zinc-100">Execution promise to partner brands</h2>
         <p className="mt-2 max-w-3xl text-sm leading-7 text-zinc-300">
-          This is not ad inventory. Each launch is packaged with audience education, discussion
-          hooks, and post-drop performance reporting so brands can track qualified demand.
+          This is not ad inventory. Each launch combines narrative positioning, community
+          conversation, and post-drop performance reporting so brands can track qualified demand.
         </p>
       </div>
     </main>

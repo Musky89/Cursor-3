@@ -8,7 +8,7 @@ type Props = {
 
 export function FragranceCard({ fragrance }: Props) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-xl shadow-black/35 transition duration-300 hover:-translate-y-0.5 hover:border-[color:var(--gold)]/40">
+    <article className="group overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-xl shadow-black/35 transition duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)]/45">
       <Link href={`/fragrance/${fragrance.slug}`} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900">
           <Image
@@ -26,13 +26,13 @@ export function FragranceCard({ fragrance }: Props) {
           ) : null}
         </div>
         <div className="space-y-2 p-4">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">{fragrance.brand}</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">{fragrance.brand}</p>
           <h3 className="line-clamp-2 font-serif text-lg leading-tight text-zinc-100">
             {fragrance.name}
           </h3>
-          <div className="flex items-center justify-between text-xs text-zinc-400">
+          <div className="flex items-center justify-between text-xs text-zinc-400/95">
             <span>{fragrance.launchYear ?? "Year n/a"}</span>
-            <span>{fragrance.ratingCount ? `${fragrance.ratingCount} votes` : "Unrated"}</span>
+            <span>{fragrance.ratingCount ? `${fragrance.ratingCount} voices` : "Unrated"}</span>
           </div>
         </div>
       </Link>

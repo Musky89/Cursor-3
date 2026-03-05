@@ -29,11 +29,11 @@ export default function ForumPage() {
   return (
     <main className="lux-container py-10">
       <div className="lux-panel p-7 sm:p-8">
-        <p className="lux-kicker">Community</p>
+        <p className="lux-eyebrow">Community Salon</p>
         <h1 className="mt-2 font-serif text-4xl text-zinc-100">Oud Forum</h1>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-300">
-          Structure discussions around practical discovery, deep enthusiast knowledge, and launch
-          conversations that matter to premium brands.
+          The conversation layer for people who care how a scent unfolds after 10 minutes, 2 hours,
+          and the next morning.
         </p>
       </div>
 
@@ -60,9 +60,9 @@ export default function ForumPage() {
       <div className="lux-panel mt-8 p-6">
         <h2 className="font-serif text-2xl text-zinc-100">Planned interaction model</h2>
         <ul className="mt-3 space-y-2 text-sm text-zinc-300">
-          <li>• Weighted review credibility (owner verification + wear history).</li>
-          <li>• Brand-tagged launch threads with moderator-verified announcements.</li>
-          <li>• Structured “compare” threads for scent profile and longevity decisions.</li>
+          <li>• Wear diary threads that capture opening, heart, and dry-down over time.</li>
+          <li>• Moderator-curated launch conversations for high-signal brand interaction.</li>
+          <li>• Structured comparison templates for projection, longevity, and mood profile.</li>
         </ul>
       </div>
     </main>

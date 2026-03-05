@@ -18,6 +18,9 @@ export default async function FragranceDetailPage({ params }: Props) {
   const similar = oudFragrances
     .filter((item) => item.brand === fragrance.brand && item.slug !== fragrance.slug)
     .slice(0, 4);
+  const impression = fragrance.notes.length
+    ? `${fragrance.notes.slice(0, 3).join(" • ")}`
+    : "Dark woods • warm resin • quiet smoke";
 
   return (
     <main className="lux-container py-10">
@@ -36,8 +39,9 @@ export default async function FragranceDetailPage({ params }: Props) {
           />
         </div>
         <div>
-          <p className="lux-kicker">{fragrance.brand}</p>
+          <p className="lux-eyebrow">{fragrance.brand}</p>
           <h1 className="mt-2 font-serif text-4xl leading-tight text-zinc-100">{fragrance.name}</h1>
+          <p className="mt-3 font-serif text-lg text-[color:var(--gold-soft)]/90">{impression}</p>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-300">{fragrance.description}</p>
 
           <dl className="mt-5 grid grid-cols-2 gap-3 text-sm md:max-w-md">

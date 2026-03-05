@@ -25,13 +25,15 @@ export default async function DirectoryPage({ searchParams }: Props) {
 
   return (
     <main className="lux-container py-10">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="lux-kicker">Fragrance Directory</p>
-          <h1 className="mt-1 font-serif text-3xl text-zinc-100 sm:text-4xl">
-            Oud catalog ({filtered.length})
-          </h1>
-        </div>
+      <div className="lux-panel mb-6 p-6 sm:p-7">
+        <p className="lux-eyebrow">The Oud Library</p>
+        <h1 className="mt-2 font-serif text-4xl text-zinc-100">Compositions and signatures</h1>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-300">
+          Each listing is treated like an object of craft. Search by house, title, or note to find
+          the expression that fits your mood.
+        </p>
+        <div className="lux-divider mt-4" />
+        <p className="mt-3 text-sm text-zinc-400">Showing {filtered.length} fragrances</p>
       </div>
 
       <form className="lux-panel mb-8 grid gap-3 p-4 sm:grid-cols-[2fr_1fr_auto]">
