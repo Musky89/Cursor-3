@@ -1,41 +1,54 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { FragranceRecord } from "@/lib/fragrances";
+import type { Fragrance } from "@/lib/types";
 
-type Props = {
-  fragrance: FragranceRecord;
-};
+interface FragranceCardProps {
+  fragrance: Fragrance;
+  priority?: boolean;
+}
 
-export function FragranceCard({ fragrance }: Props) {
+export function FragranceCard({ fragrance, priority = false }: FragranceCardProps) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-xl shadow-black/35 transition duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)]/45">
-      <Link href={`/fragrance/${fragrance.slug}`} className="block">
-        <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900">
-          <Image
-            src={fragrance.imageUrl}
-            alt={fragrance.name}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-[1.04]"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-          />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent" />
-          {fragrance.ratingValue ? (
-            <span className="absolute right-3 top-3 rounded-full border border-[color:var(--gold)]/60 bg-black/60 px-2 py-1 text-[11px] text-[color:var(--gold-soft)]">
-              {fragrance.ratingValue.toFixed(2)}
-            </span>
-          ) : null}
-        </div>
-        <div className="space-y-2 p-4">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">{fragrance.brand}</p>
-          <h3 className="line-clamp-2 font-serif text-lg leading-tight text-zinc-100">
-            {fragrance.name}
-          </h3>
-          <div className="flex items-center justify-between text-xs text-zinc-400/95">
-            <span>{fragrance.launchYear ?? "Year n/a"}</span>
-            <span>{fragrance.ratingCount ? `${fragrance.ratingCount} voices` : "Unrated"}</span>
+    <Link
+      href={`/fragrance/${fragrance.slug}`}
+      className="group block"
+    >
+      <article className="relative">
+        {/* Bottle image area */}
+        <div className="bottle-frame aspect-[3/4] overflow-hidden mb-5">
+          <div className="relative w-full h-full flex items-center justify-center p-6 bottle-glow">
+            <Image
+              src={fragrance.imageUrl}
+              alt={`${fragrance.name} by ${fragrance.brand}`}
+              width={280}
+              height={373}
+              className="relative z-10 object-contain w-auto h-full max-h-[85%] transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+              priority={priority}
+            />
           </div>
         </div>
-      </Link>
-    </article>
+
+        {/* Info */}
+        <div className="space-y-1.5">
+          <span className="block text-[11px] tracking-editorial uppercase text-ink-3 font-body font-medium">
+            {fragrance.brand}
+          </span>
+          <h3 className="font-display text-[1.25rem] text-ink-1 font-light leading-tight group-hover:text-gold-2 transition-colors duration-300">
+            {fragrance.name}
+          </h3>
+          <div className="flex items-center gap-3 pt-1">
+            <span className="text-[12px] text-ink-3 font-body">
+              {fragrance.launchYear}
+            </span>
+            <span className="w-px h-3 bg-line" />
+            <span className="text-[12px] text-ink-3 font-body">
+              <span className="text-gold-1">{fragrance.ratingValue.toFixed(1)}</span>
+              {" · "}
+              {fragrance.ratingCount.toLocaleString()} votes
+            </span>
+          </div>
+        </div>
+      </article>
+    </Link>
   );
 }

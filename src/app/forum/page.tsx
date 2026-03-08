@@ -1,79 +1,152 @@
-const forumSections = [
+import { SectionHeader } from "@/components/section-header";
+import { EditorialPanel } from "@/components/editorial-panel";
+
+const salonRooms = [
   {
-    title: "Oud Starter Guides",
-    threads: 26,
-    posts: 184,
-    description: "Entry pathways for people moving from designer scents into niche Oud.",
+    title: "The Opening",
+    description:
+      "First impressions, blind buys, and the stories behind how a composition found you. Share the moment a fragrance stopped you in your tracks.",
+    threads: 234,
+    members: 1820,
+    icon: "◇",
   },
   {
-    title: "Daily Wear vs. Statement Oud",
-    threads: 42,
-    posts: 509,
-    description: "Compare projection, seasonality, office-wearability, and skin chemistry.",
+    title: "The Heart",
+    description:
+      "Deep composition analysis, note breakdowns, and the craft behind the blend. For those who want to understand what they smell, not just name it.",
+    threads: 189,
+    members: 1450,
+    icon: "◈",
   },
   {
-    title: "Regional Craft & Artisanal Houses",
-    threads: 31,
-    posts: 292,
-    description: "Independent makers from GCC, South Asia, and Europe doing serious Oud work.",
+    title: "The Dry-Down",
+    description:
+      "Long-term reflections. How does a fragrance evolve over months and years of wear? Revisit compositions with the perspective that only time provides.",
+    threads: 156,
+    members: 980,
+    icon: "◆",
   },
   {
-    title: "Launch Watch",
-    threads: 19,
-    posts: 103,
-    description: "Early reactions to new drops from premium and boutique brands.",
+    title: "The Collection",
+    description:
+      "Curation philosophy, storage, display, and the art of building a wardrobe. From the minimalist five-bottle rotation to the encyclopedic archive.",
+    threads: 312,
+    members: 2100,
+    icon: "▣",
+  },
+  {
+    title: "House Visits",
+    description:
+      "Brand-focused discussions. New releases, reformulations, house DNA, creative directors. Separate the marketing from the material.",
+    threads: 278,
+    members: 1670,
+    icon: "▪",
+  },
+  {
+    title: "The Source",
+    description:
+      "Raw materials, ingredients, sustainability, and sourcing. For those drawn to the agricultural and chemical realities behind the artistry.",
+    threads: 98,
+    members: 640,
+    icon: "○",
   },
 ];
 
 export default function ForumPage() {
   return (
-    <main className="lux-container py-10">
-      <div className="lux-panel p-7 sm:p-8">
-        <p className="lux-eyebrow">Community Salon</p>
-        <h1 className="mt-2 font-serif text-4xl text-zinc-100">Oud Forum</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-300">
-          The conversation layer for people who care how a scent unfolds after 10 minutes, 2 hours,
-          and the next morning.
-        </p>
-      </div>
+    <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24">
+      {/* Header */}
+      <SectionHeader
+        kicker="Community"
+        title="The Salon"
+        subtitle="A place for unhurried conversation about the compositions, materials, and houses that define fine fragrance. No algorithmic feeds. No promotional noise."
+      />
 
-      <section className="mt-8 space-y-3">
-        {forumSections.map((section) => (
-          <article
-            key={section.title}
-            className="lux-panel p-4 sm:p-5"
+      {/* Rooms grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-20">
+        {salonRooms.map((room) => (
+          <EditorialPanel
+            key={room.title}
+            variant="bordered"
+            className="p-8 md:p-10 group hover:border-line/70 transition-all duration-500 cursor-pointer"
           >
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h2 className="font-serif text-2xl text-zinc-100">{section.title}</h2>
-                <p className="mt-1 text-sm text-zinc-300">{section.description}</p>
+            <div className="flex items-start gap-5">
+              <span className="text-gold-1/50 text-[1.5rem] font-display leading-none mt-0.5 group-hover:text-gold-1/80 transition-colors duration-500">
+                {room.icon}
+              </span>
+              <div className="flex-1 space-y-3">
+                <h3 className="font-display text-[1.2rem] text-ink-1 font-light group-hover:text-gold-2 transition-colors duration-300">
+                  {room.title}
+                </h3>
+                <p className="text-ink-3 text-[13px] leading-[1.7]">
+                  {room.description}
+                </p>
+                <div className="flex items-center gap-4 pt-2">
+                  <span className="text-[11px] text-ink-3/70 font-body">
+                    <span className="text-ink-2">{room.threads}</span> threads
+                  </span>
+                  <span className="w-px h-3 bg-line/50" />
+                  <span className="text-[11px] text-ink-3/70 font-body">
+                    <span className="text-ink-2">
+                      {room.members.toLocaleString()}
+                    </span>{" "}
+                    members
+                  </span>
+                </div>
               </div>
-              <dl className="grid grid-cols-2 gap-2 text-xs text-zinc-300">
-                <Metric label="Threads" value={String(section.threads)} />
-                <Metric label="Posts" value={String(section.posts)} />
-              </dl>
             </div>
-          </article>
+          </EditorialPanel>
         ))}
-      </section>
-
-      <div className="lux-panel mt-8 p-6">
-        <h2 className="font-serif text-2xl text-zinc-100">Planned interaction model</h2>
-        <ul className="mt-3 space-y-2 text-sm text-zinc-300">
-          <li>• Wear diary threads that capture opening, heart, and dry-down over time.</li>
-          <li>• Moderator-curated launch conversations for high-signal brand interaction.</li>
-          <li>• Structured comparison templates for projection, longevity, and mood profile.</li>
-        </ul>
       </div>
-    </main>
-  );
-}
 
-function Metric({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-[color:var(--line)] bg-black/35 px-3 py-2 text-right">
-      <dt className="uppercase tracking-wide text-zinc-400">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold text-zinc-100">{value}</dd>
+      {/* Discussion quality model */}
+      <section className="border-t border-line/30 pt-16 md:pt-20">
+        <div className="max-w-3xl">
+          <span className="inline-block text-[11px] tracking-editorial uppercase text-gold-1 mb-6 font-body font-medium">
+            Our Standard
+          </span>
+          <h2 className="font-display text-display-md text-ink-1 font-light mb-6">
+            On the quality of discourse
+          </h2>
+          <div className="space-y-5 text-ink-3 text-[15px] leading-[1.8]">
+            <p>
+              The Salon is moderated with a simple principle: every contribution should leave the
+              reader knowing more than they did before. We value specificity over opinion,
+              experience over hearsay, and nuance over certainty.
+            </p>
+            <p>
+              Discussions that reduce compositions to simple
+              &ldquo;thumbs up / thumbs down&rdquo; verdicts miss what makes fragrance compelling.
+              We encourage members to describe what they smell, how it evolves, and what it evokes
+              — not just whether they like it.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                label: "Specificity",
+                text: "Name the notes, describe the evolution, cite the wear time. Be precise.",
+              },
+              {
+                label: "Generosity",
+                text: "Share what you know. The best collectors are also the best teachers.",
+              },
+              {
+                label: "Patience",
+                text: "Let compositions reveal themselves. First spray is never the full story.",
+              },
+            ].map((principle) => (
+              <div key={principle.label} className="space-y-2">
+                <span className="text-[12px] tracking-editorial uppercase text-gold-1/70 font-body font-medium">
+                  {principle.label}
+                </span>
+                <p className="text-[13px] text-ink-3 leading-relaxed">{principle.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

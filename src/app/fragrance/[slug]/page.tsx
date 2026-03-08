@@ -1,114 +1,172 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getFragranceBySlug, oudFragrances } from "@/lib/fragrances";
+import { getFragranceBySlug, getFragrancesByBrand } from "@/lib/data";
+import { FragranceCard } from "@/components/fragrance-card";
+import { MetricBadge } from "@/components/metric-badge";
+import { CTAButton } from "@/components/cta-button";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
-
-export function generateStaticParams() {
-  return oudFragrances.map((item) => ({ slug: item.slug }));
+interface FragrancePageProps {
+  params: { slug: string };
 }
 
-export default async function FragranceDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const fragrance = getFragranceBySlug(slug);
-  if (!fragrance) notFound();
-  const similar = oudFragrances
-    .filter((item) => item.brand === fragrance.brand && item.slug !== fragrance.slug)
-    .slice(0, 4);
-  const impression = fragrance.notes.length
-    ? `${fragrance.notes.slice(0, 3).join(" • ")}`
-    : "Dark woods • warm resin • quiet smoke";
+export default function FragrancePage({ params }: FragrancePageProps) {
+  const fragrance = getFragranceBySlug(params.slug);
+
+  if (!fragrance) {
+    notFound();
+  }
+
+  const siblings = getFragrancesByBrand(fragrance.brand).filter(
+    (f) => f.id !== fragrance.id
+  );
+
+  // Generate a poetic subtitle from the first 3 notes
+  const poeticNotes = fragrance.notes.slice(0, 3).join(", ");
 
   return (
-    <main className="lux-container py-10">
-      <Link href="/directory" className="text-sm text-[color:var(--gold-soft)] hover:underline">
-        ← Back to directory
-      </Link>
+    <>
+      {/* ── HERO ── */}
+      <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-20">
+        {/* Breadcrumb */}
+        <nav className="mb-10 flex items-center gap-2 text-[12px] text-ink-3 font-body">
+          <Link
+            href="/directory"
+            className="hover:text-ink-2 transition-colors"
+          >
+            Directory
+          </Link>
+          <span className="text-line">/</span>
+          <span className="text-ink-2">{fragrance.brand}</span>
+          <span className="text-line">/</span>
+          <span className="text-gold-1/70">{fragrance.name}</span>
+        </nav>
 
-      <section className="lux-panel mt-4 grid gap-8 p-6 sm:grid-cols-[340px_1fr]">
-        <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-[color:var(--line)] bg-zinc-900">
-          <Image
-            src={fragrance.imageUrl}
-            alt={fragrance.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 340px"
-          />
-        </div>
-        <div>
-          <p className="lux-eyebrow">{fragrance.brand}</p>
-          <h1 className="mt-2 font-serif text-4xl leading-tight text-zinc-100">{fragrance.name}</h1>
-          <p className="mt-3 font-serif text-lg text-[color:var(--gold-soft)]/90">{impression}</p>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-300">{fragrance.description}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Bottle visual */}
+          <div className="lg:col-span-5">
+            <div className="bottle-frame aspect-[3/4] flex items-center justify-center p-10 md:p-14 sticky top-28">
+              <div className="relative w-full h-full flex items-center justify-center bottle-glow">
+                <Image
+                  src={fragrance.imageUrl}
+                  alt={`${fragrance.name} by ${fragrance.brand}`}
+                  width={375}
+                  height={500}
+                  priority
+                  className="relative z-10 object-contain w-auto h-full max-h-full drop-shadow-xl"
+                />
+              </div>
+            </div>
+          </div>
 
-          <dl className="mt-5 grid grid-cols-2 gap-3 text-sm md:max-w-md">
-            <Meta label="Launch year" value={fragrance.launchYear?.toString() ?? "N/A"} />
-            <Meta
-              label="Rating"
-              value={
-                fragrance.ratingValue
-                  ? `${fragrance.ratingValue.toFixed(2)} / 5 (${fragrance.ratingCount ?? 0})`
-                  : "N/A"
-              }
-            />
-          </dl>
+          {/* Info column */}
+          <div className="lg:col-span-6 lg:col-start-7 py-4">
+            {/* House name */}
+            <span className="block text-[11px] tracking-editorial uppercase text-gold-1 font-body font-medium mb-4">
+              {fragrance.brand}
+            </span>
 
-          {fragrance.notes.length > 0 && (
-            <div className="mt-5">
-              <h2 className="text-xs uppercase tracking-[0.15em] text-zinc-400">Detected notes</h2>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {fragrance.notes.slice(0, 12).map((note) => (
+            {/* Composition name */}
+            <h1 className="font-display text-display-xl text-ink-1 font-light mb-3">
+              {fragrance.name}
+            </h1>
+
+            {/* Poetic subtitle */}
+            <p className="font-display text-[1.1rem] text-ink-3 italic mb-10">
+              A study in {poeticNotes.toLowerCase()}
+            </p>
+
+            {/* Metrics row */}
+            <div className="flex items-center border border-line/40 divide-x divide-line/40 mb-10">
+              <MetricBadge label="Year" value={fragrance.launchYear} />
+              <MetricBadge
+                label="Rating"
+                value={fragrance.ratingValue.toFixed(2)}
+              />
+              <MetricBadge
+                label="Votes"
+                value={fragrance.ratingCount.toLocaleString()}
+              />
+            </div>
+
+            {/* Description */}
+            <div className="mb-10">
+              <h2 className="text-[11px] tracking-editorial uppercase text-ink-3 font-body font-medium mb-4">
+                Composition Notes
+              </h2>
+              <p className="text-ink-2 text-[15px] leading-[1.85]">
+                {fragrance.description}
+              </p>
+            </div>
+
+            {/* Notes tags */}
+            <div className="mb-10">
+              <h2 className="text-[11px] tracking-editorial uppercase text-ink-3 font-body font-medium mb-4">
+                Olfactive Pyramid
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {fragrance.notes.map((note) => (
                   <span
                     key={note}
-                    className="rounded-full border border-[color:var(--line)] bg-black/40 px-3 py-1 text-xs text-zinc-200"
+                    className="px-3.5 py-1.5 text-[12px] text-ink-2 border border-line/50 font-body hover:border-gold-1/30 hover:text-gold-2 transition-all duration-300 cursor-default"
                   >
                     {note}
                   </span>
                 ))}
               </div>
             </div>
-          )}
 
-          <a
-            href={fragrance.url}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-block rounded-full bg-[color:var(--gold)] px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-[color:var(--gold-soft)]"
-          >
-            View source on Fragrantica
-          </a>
+            {/* Divider */}
+            <div className="divider-fine mb-8" />
+
+            {/* Source link */}
+            <div className="flex items-center justify-between">
+              <span className="text-[12px] text-ink-3 font-body">
+                External reference
+              </span>
+              <a
+                href={fragrance.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[12px] text-ink-3 hover:text-gold-2 transition-colors font-body underline underline-offset-4 decoration-line/50"
+              >
+                View on Fragrantica →
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
-      {similar.length > 0 ? (
-        <section className="mt-8">
-          <h2 className="font-serif text-2xl text-zinc-100">More from {fragrance.brand}</h2>
-          <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {similar.map((item) => (
-              <Link
-                key={item.slug}
-                href={`/fragrance/${item.slug}`}
-                className="rounded-xl border border-[color:var(--line)] bg-[color:var(--surface)] p-3 text-sm text-zinc-200 transition hover:border-[color:var(--gold)]/40"
-              >
-                <p className="line-clamp-2 font-medium">{item.name}</p>
-                <p className="mt-1 text-xs text-zinc-400">{item.launchYear ?? "Year n/a"}</p>
-              </Link>
-            ))}
+      {/* ── MORE FROM THIS HOUSE ── */}
+      {siblings.length > 0 && (
+        <section className="border-t border-line/30 mt-16">
+          <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28">
+            <div className="mb-12">
+              <span className="inline-block text-[11px] tracking-editorial uppercase text-gold-1 mb-4 font-body font-medium">
+                From the same house
+              </span>
+              <h2 className="font-display text-display-md text-ink-1 font-light">
+                More by {fragrance.brand}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10 md:gap-x-7 md:gap-y-14">
+              {siblings.slice(0, 4).map((frag) => (
+                <FragranceCard key={frag.id} fragrance={frag} />
+              ))}
+            </div>
           </div>
         </section>
-      ) : null}
-    </main>
-  );
-}
+      )}
 
-function Meta({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-[color:var(--line)] bg-black/35 px-3 py-2">
-      <dt className="text-xs uppercase tracking-wide text-zinc-400">{label}</dt>
-      <dd className="mt-1 font-medium text-zinc-100">{value}</dd>
-    </div>
+      {/* ── BACK TO DIRECTORY CTA ── */}
+      <section className="border-t border-line/30">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 text-center">
+          <CTAButton href="/directory" variant="ghost">
+            Return to the full archive
+          </CTAButton>
+        </div>
+      </section>
+    </>
   );
 }

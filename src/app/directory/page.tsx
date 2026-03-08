@@ -1,74 +1,152 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import { FragranceCard } from "@/components/fragrance-card";
-import { oudBrands, oudFragrances } from "@/lib/fragrances";
+import { SectionHeader } from "@/components/section-header";
+import fragrancesData from "@/data/fragrances.json";
+import type { Fragrance } from "@/lib/types";
 
-type Props = {
-  searchParams: Promise<{
-    q?: string;
-    brand?: string;
-  }>;
-};
+const fragrances: Fragrance[] = fragrancesData as Fragrance[];
 
-export default async function DirectoryPage({ searchParams }: Props) {
-  const params = await searchParams;
-  const q = (params.q ?? "").trim().toLowerCase();
-  const brand = (params.brand ?? "").trim();
+type SortOption = "rating" | "year" | "name" | "votes";
 
-  const filtered = oudFragrances.filter((item) => {
-    const matchesQuery =
-      q.length === 0 ||
-      item.name.toLowerCase().includes(q) ||
-      item.brand.toLowerCase().includes(q) ||
-      item.notes.join(" ").toLowerCase().includes(q);
-    const matchesBrand = brand.length === 0 || item.brand === brand;
-    return matchesQuery && matchesBrand;
-  });
+export default function DirectoryPage() {
+  const [search, setSearch] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<SortOption>("rating");
+
+  const brands = useMemo(() => {
+    const set = new Set(fragrances.map((f) => f.brand));
+    return Array.from(set).sort();
+  }, []);
+
+  const filtered = useMemo(() => {
+    let result = [...fragrances];
+
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter(
+        (f) =>
+          f.name.toLowerCase().includes(q) ||
+          f.brand.toLowerCase().includes(q) ||
+          f.notes.some((n) => n.toLowerCase().includes(q))
+      );
+    }
+
+    if (selectedBrand !== "all") {
+      result = result.filter((f) => f.brand === selectedBrand);
+    }
+
+    switch (sortBy) {
+      case "rating":
+        result.sort((a, b) => b.ratingValue - a.ratingValue);
+        break;
+      case "year":
+        result.sort((a, b) => b.launchYear - a.launchYear);
+        break;
+      case "name":
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "votes":
+        result.sort((a, b) => b.ratingCount - a.ratingCount);
+        break;
+    }
+
+    return result;
+  }, [search, selectedBrand, sortBy]);
 
   return (
-    <main className="lux-container py-10">
-      <div className="lux-panel mb-6 p-6 sm:p-7">
-        <p className="lux-eyebrow">The Oud Library</p>
-        <h1 className="mt-2 font-serif text-4xl text-zinc-100">Compositions and signatures</h1>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-300">
-          Each listing is treated like an object of craft. Search by house, title, or note to find
-          the expression that fits your mood.
-        </p>
-        <div className="lux-divider mt-4" />
-        <p className="mt-3 text-sm text-zinc-400">Showing {filtered.length} fragrances</p>
-      </div>
-
-      <form className="lux-panel mb-8 grid gap-3 p-4 sm:grid-cols-[2fr_1fr_auto]">
-        <input
-          type="text"
-          name="q"
-          defaultValue={params.q ?? ""}
-          placeholder="Search by name, brand, note..."
-          className="rounded-xl border border-[color:var(--line)] bg-black/40 px-4 py-2.5 text-sm text-zinc-100 outline-none ring-[color:var(--gold)] transition focus:ring-2"
+    <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24">
+      {/* Header */}
+      <div className="mb-14">
+        <SectionHeader
+          kicker="The Archive"
+          title="Directory"
+          subtitle="Every composition in the collection — searchable by name, house, or note. Arranged with intention, not algorithm."
         />
-        <select
-          name="brand"
-          defaultValue={brand}
-          className="rounded-xl border border-[color:var(--line)] bg-black/40 px-4 py-2.5 text-sm text-zinc-100 outline-none ring-[color:var(--gold)] transition focus:ring-2"
-        >
-          <option value="">All brands</option>
-          {oudBrands.map((entry) => (
-            <option key={entry} value={entry}>
-              {entry}
-            </option>
-          ))}
-        </select>
-        <button
-          type="submit"
-          className="rounded-xl bg-[color:var(--gold)] px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-[color:var(--gold-soft)]"
-        >
-          Filter
-        </button>
-      </form>
-
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {filtered.map((fragrance) => (
-          <FragranceCard key={fragrance.slug} fragrance={fragrance} />
-        ))}
       </div>
-    </main>
+
+      {/* Filter bar */}
+      <div className="border border-line/40 bg-surface-800/30 p-5 md:p-6 mb-12">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch md:items-center">
+          {/* Search input */}
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by name, house, or note…"
+              className="w-full bg-transparent border border-line/50 px-4 py-3 text-[14px] text-ink-1 placeholder:text-ink-3/50 font-body focus:outline-none focus:border-gold-1/40 transition-colors duration-300"
+            />
+          </div>
+
+          {/* Brand select */}
+          <div className="relative">
+            <select
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              className="appearance-none bg-transparent border border-line/50 px-4 py-3 pr-10 text-[13px] text-ink-2 font-body focus:outline-none focus:border-gold-1/40 transition-colors duration-300 cursor-pointer min-w-[180px]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%239A8F80' stroke-width='1' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 12px center",
+              }}
+            >
+              <option value="all">All Houses</option>
+              {brands.map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Sort select */}
+          <div className="relative">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="appearance-none bg-transparent border border-line/50 px-4 py-3 pr-10 text-[13px] text-ink-2 font-body focus:outline-none focus:border-gold-1/40 transition-colors duration-300 cursor-pointer min-w-[150px]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%239A8F80' stroke-width='1' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 12px center",
+              }}
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="year">Most Recent</option>
+              <option value="name">Alphabetical</option>
+              <option value="votes">Most Discussed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Results count */}
+      <div className="mb-8 flex items-center justify-between">
+        <span className="text-[12px] text-ink-3 font-body">
+          {filtered.length} composition{filtered.length !== 1 ? "s" : ""}
+        </span>
+      </div>
+
+      {/* Grid */}
+      {filtered.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10 md:gap-x-7 md:gap-y-14">
+          {filtered.map((frag, i) => (
+            <FragranceCard key={frag.id} fragrance={frag} priority={i < 4} />
+          ))}
+        </div>
+      ) : (
+        /* Empty state */
+        <div className="text-center py-24 border border-line/20">
+          <p className="font-display text-display-sm text-ink-2 font-light italic mb-3">
+            No compositions found
+          </p>
+          <p className="text-ink-3 text-[14px]">
+            Try adjusting your search or filters — the archive rewards curiosity.
+          </p>
+        </div>
+      )}
+    </div>
   );
 }

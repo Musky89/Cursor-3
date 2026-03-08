@@ -1,35 +1,118 @@
-import Link from "next/link";
+"use client";
 
-const links = [
-  { href: "/", label: "Journal" },
-  { href: "/directory", label: "Library" },
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/directory", label: "Directory" },
   { href: "/forum", label: "Salon" },
   { href: "/brands", label: "Houses" },
 ];
 
 export function SiteNav() {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[color:var(--line)]/80 bg-[color:var(--background)]/80 backdrop-blur-xl">
-      <nav className="lux-container flex items-center justify-between py-3.5">
-        <Link
-          href="/"
-          className="font-serif text-xl tracking-[0.16em] text-[color:var(--gold-soft)]"
+    <>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(8,7,6,0.92) 0%, rgba(8,7,6,0.78) 60%, transparent 100%)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="flex items-center justify-between h-[72px]">
+            {/* Wordmark */}
+            <Link href="/" className="group flex items-baseline gap-1">
+              <span className="font-display text-[1.3rem] text-ink-1 font-light tracking-wide">
+                Oud
+              </span>
+              <span className="font-display text-[1.3rem] text-gold-1 font-light tracking-wide">
+                Atlas
+              </span>
+            </Link>
+
+            {/* Desktop links */}
+            <div className="hidden md:flex items-center gap-10">
+              {navLinks.map((link) => {
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(link.href);
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative text-[12px] tracking-editorial uppercase font-body font-medium transition-colors duration-300 py-1 ${
+                      isActive
+                        ? "text-gold-1"
+                        : "text-ink-3 hover:text-ink-2"
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-gold-1/50" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile toggle */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden flex flex-col gap-[5px] p-2"
+              aria-label="Toggle navigation"
+            >
+              <span
+                className={`block w-5 h-px bg-ink-2 transition-all duration-300 ${
+                  mobileOpen ? "rotate-45 translate-y-[3px]" : ""
+                }`}
+              />
+              <span
+                className={`block w-5 h-px bg-ink-2 transition-all duration-300 ${
+                  mobileOpen ? "-rotate-45 -translate-y-[3px]" : ""
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-surface-900/98 flex flex-col items-center justify-center gap-8"
+          onClick={() => setMobileOpen(false)}
         >
-          OUD ATLAS
-        </Link>
-        <ul className="flex items-center gap-1 text-sm text-zinc-200 sm:gap-2">
-          {links.map((link) => (
-            <li key={link.href}>
+          {navLinks.map((link) => {
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href);
+
+            return (
               <Link
-                className="rounded-full px-3 py-1.5 transition hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--gold-soft)]/95"
+                key={link.href}
                 href={link.href}
+                className={`font-display text-display-md transition-colors duration-300 ${
+                  isActive ? "text-gold-1" : "text-ink-2 hover:text-ink-1"
+                }`}
+                onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
