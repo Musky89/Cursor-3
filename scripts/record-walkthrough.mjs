@@ -12,7 +12,7 @@ const routes = [
   "/directory?q=oud",
   "/forum",
   "/brands",
-  "/fragrance/oud-wood-1826",
+  "/fragrance/tom-ford-oud-wood",
 ];
 
 async function pause(page, ms = 1200) {
