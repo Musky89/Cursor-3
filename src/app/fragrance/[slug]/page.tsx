@@ -53,7 +53,7 @@ export default function FragrancePage({ params }: FragrancePageProps) {
                   width={375}
                   height={500}
                   priority
-                  className="relative z-10 object-contain w-auto h-full max-h-full drop-shadow-xl"
+                  className="bottle-image relative z-10 object-contain w-auto h-full max-h-full drop-shadow-xl"
                 />
               </div>
             </div>

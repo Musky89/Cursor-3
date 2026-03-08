@@ -59,33 +59,62 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Feature bottle (asymmetric offset) */}
+            {/* Feature visual composition */}
             <div className="lg:col-span-5 relative">
-              <div className="relative aspect-[3/4] max-w-[380px] mx-auto lg:ml-auto animate-fade-in opacity-0 stagger-2">
+              <div className="relative h-[520px] md:h-[620px] max-w-[470px] mx-auto lg:ml-auto animate-fade-in opacity-0 stagger-2">
                 <div
                   className="absolute inset-0"
                   style={{
                     background:
-                      "radial-gradient(circle at 50% 50%, rgba(214,176,106,0.06) 0%, transparent 65%)",
+                      "radial-gradient(ellipse 70% 56% at 52% 48%, rgba(214,176,106,0.18) 0%, rgba(214,176,106,0.06) 30%, transparent 75%)",
                   }}
                 />
-                <Image
-                  src={featured[0].imageUrl}
-                  alt={`${featured[0].name} by ${featured[0].brand}`}
-                  width={375}
-                  height={500}
-                  priority
-                  className="relative z-10 object-contain w-full h-full drop-shadow-2xl"
-                />
-                {/* Caption */}
-                <div className="absolute -bottom-6 right-0 text-right">
-                  <span className="text-[11px] tracking-editorial uppercase text-ink-3 font-body">
-                    Currently featured
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[78%] h-[88%] bottle-frame">
+                  <div className="relative w-full h-full p-8 flex items-center justify-center bottle-glow">
+                    <Image
+                      src={featured[0].imageUrl}
+                      alt={`${featured[0].name} by ${featured[0].brand}`}
+                      width={375}
+                      height={500}
+                      priority
+                      className="bottle-image-hero relative z-10 object-contain w-auto h-full max-h-[90%] drop-shadow-[0_26px_60px_rgba(0,0,0,0.45)]"
+                    />
+                  </div>
+                </div>
+
+                {/* Supporting bottles for richer hero depth */}
+                <div className="absolute left-0 bottom-9 w-[36%] h-[48%] bottle-frame border-line/40">
+                  <div className="relative w-full h-full p-4 flex items-end justify-center">
+                    <Image
+                      src={featured[1].imageUrl}
+                      alt={`${featured[1].name} by ${featured[1].brand}`}
+                      width={220}
+                      height={293}
+                      className="bottle-image object-contain w-auto h-full max-h-[92%] opacity-[0.85]"
+                    />
+                  </div>
+                </div>
+
+                <div className="absolute right-0 top-12 w-[30%] h-[40%] bottle-frame border-line/40">
+                  <div className="relative w-full h-full p-3 flex items-center justify-center">
+                    <Image
+                      src={featured[2].imageUrl}
+                      alt={`${featured[2].name} by ${featured[2].brand}`}
+                      width={180}
+                      height={240}
+                      className="bottle-image object-contain w-auto h-full max-h-[90%] opacity-[0.8]"
+                    />
+                  </div>
+                </div>
+
+                <div className="absolute -bottom-4 right-2 text-right bg-surface-900/70 border border-line/50 px-4 py-3 backdrop-blur-[2px]">
+                  <span className="text-[10px] tracking-editorial uppercase text-ink-3 font-body">
+                    Editorial highlight
                   </span>
-                  <br />
-                  <span className="font-display text-[15px] text-ink-2 italic">
+                  <p className="font-display text-[1rem] text-ink-1 italic leading-tight">
                     {featured[0].name}
-                  </span>
+                  </p>
+                  <p className="text-[11px] text-ink-3">{featured[0].brand}</p>
                 </div>
               </div>
             </div>

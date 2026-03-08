@@ -22,7 +22,7 @@ export function FragranceCard({ fragrance, priority = false }: FragranceCardProp
               alt={`${fragrance.name} by ${fragrance.brand}`}
               width={280}
               height={373}
-              className="relative z-10 object-contain w-auto h-full max-h-[85%] transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+              className="bottle-image relative z-10 object-contain w-auto h-full max-h-[85%] transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
               priority={priority}
             />
           </div>
