@@ -143,7 +143,7 @@ export default function FragrancePage({ params }: FragrancePageProps) {
           <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28">
             <div className="mb-12">
               <span className="inline-block text-[11px] tracking-editorial uppercase text-gold-1 mb-4 font-body font-medium">
-                From the same house
+                From the same brand
               </span>
               <h2 className="font-display text-display-md text-ink-1 font-light">
                 More by {fragrance.brand}

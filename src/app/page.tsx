@@ -54,14 +54,14 @@ export default function HomePage() {
               <div className="flex items-center gap-6 pt-2 animate-fade-up opacity-0 stagger-3">
                 <CTAButton href="/directory">Explore the Archive</CTAButton>
                 <CTAButton href="/brands" variant="ghost">
-                  For Houses
+                  For Brands
                 </CTAButton>
               </div>
             </div>
 
             {/* Feature visual composition */}
             <div className="lg:col-span-5 relative">
-              <div className="relative h-[520px] md:h-[620px] max-w-[470px] mx-auto lg:ml-auto animate-fade-in opacity-0 stagger-2">
+              <div className="relative h-[440px] sm:h-[520px] md:h-[620px] max-w-[470px] mx-auto lg:ml-auto animate-fade-in opacity-0 stagger-2">
                 <div
                   className="absolute inset-0"
                   style={{
@@ -69,8 +69,8 @@ export default function HomePage() {
                       "radial-gradient(ellipse 70% 56% at 52% 48%, rgba(214,176,106,0.18) 0%, rgba(214,176,106,0.06) 30%, transparent 75%)",
                   }}
                 />
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[78%] h-[88%] bottle-frame">
-                  <div className="relative w-full h-full p-8 flex items-center justify-center bottle-glow">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[86%] sm:w-[78%] h-[88%] bottle-frame">
+                  <div className="relative w-full h-full p-5 sm:p-8 flex items-center justify-center bottle-glow">
                     <Image
                       src={featured[0].imageUrl}
                       alt={`${featured[0].name} by ${featured[0].brand}`}
@@ -83,7 +83,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Supporting bottles for richer hero depth */}
-                <div className="absolute left-0 bottom-9 w-[36%] h-[48%] bottle-frame border-line/40">
+                <div className="hidden sm:block absolute left-0 bottom-9 w-[36%] h-[48%] bottle-frame border-line/40">
                   <div className="relative w-full h-full p-4 flex items-end justify-center">
                     <Image
                       src={featured[1].imageUrl}
@@ -95,7 +95,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="absolute right-0 top-12 w-[30%] h-[40%] bottle-frame border-line/40">
+                <div className="hidden sm:block absolute right-0 top-12 w-[30%] h-[40%] bottle-frame border-line/40">
                   <div className="relative w-full h-full p-3 flex items-center justify-center">
                     <Image
                       src={featured[2].imageUrl}
@@ -107,7 +107,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="absolute -bottom-4 right-2 text-right bg-surface-900/70 border border-line/50 px-4 py-3 backdrop-blur-[2px]">
+                <div className="hidden sm:block absolute -bottom-4 right-2 text-right bg-surface-900/70 border border-line/50 px-4 py-3 backdrop-blur-[2px]">
                   <span className="text-[10px] tracking-editorial uppercase text-ink-3 font-body">
                     Editorial highlight
                   </span>
@@ -127,7 +127,7 @@ export default function HomePage() {
         <SectionHeader
           kicker="Selected Works"
           title="Notable compositions"
-          subtitle="Curated from the archive — these are the fragrances that define houses, shift conversations, and reward repeated wear."
+          subtitle="Curated from the archive — these are the fragrances that define brands, shift conversations, and reward repeated wear."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12 md:gap-x-8 md:gap-y-16">
@@ -167,7 +167,7 @@ export default function HomePage() {
             <div className="lg:col-span-6 lg:col-start-7 space-y-6">
               <p className="text-ink-2 text-[16px] leading-[1.8]">
                 The current landscape of fragrance media is dominated by affiliate links and
-                algorithmic recommendations. Compositions are reduced to star ratings. Houses are
+                algorithmic recommendations. Compositions are reduced to star ratings. Brands are
                 ranked by marketing spend. The art is lost.
               </p>
               <p className="text-ink-3 text-[15px] leading-[1.8]">
@@ -190,7 +190,7 @@ export default function HomePage() {
                     {brandCount}
                   </span>
                   <span className="block text-[10px] tracking-editorial uppercase text-ink-3 mt-1">
-                    Houses
+                    Brands
                   </span>
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function HomePage() {
             </h3>
             <p className="text-ink-3 text-[14px] leading-[1.75]">
               A curated archive where every composition is contextualized — year of release,
-              olfactive pyramid, house lineage. No distractions, no affiliate noise. Discover
+              olfactive pyramid, brand lineage. No distractions, no affiliate noise. Discover
               compositions through editorial curation, not an algorithm.
             </p>
             <CTAButton href="/directory" variant="ghost" size="compact">
@@ -220,18 +220,17 @@ export default function HomePage() {
             </CTAButton>
           </div>
 
-          {/* For Houses */}
+          {/* For Brands */}
           <div className="border border-line/40 p-10 md:p-14 space-y-5 group hover:border-line/70 transition-colors duration-500">
             <span className="inline-block text-[11px] tracking-editorial uppercase text-gold-1 font-body font-medium">
-              For Houses
+              For Brands
             </span>
             <h3 className="font-display text-display-sm text-ink-1 font-light">
-              An editorial stage
+              Launch with clarity
             </h3>
             <p className="text-ink-3 text-[14px] leading-[1.75]">
-              Present your compositions in a context that matches their craft. Oud Atlas offers
-              houses an editorial launch venue — designed to communicate quality, narrative, and
-              artistry to an audience that cares about the work.
+              Publish launches and signature compositions in a clean, credibility-first format.
+              Reach collectors who care about materials, performance, and artistic intent.
             </p>
             <CTAButton href="/brands" variant="ghost" size="compact">
               Partnership details

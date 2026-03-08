@@ -29,8 +29,8 @@ export function SiteFooter() {
             <div className="flex flex-col gap-3">
               {[
                 { href: "/directory", label: "Directory" },
-                { href: "/forum", label: "Salon" },
-                { href: "/brands", label: "Houses" },
+                { href: "/forum", label: "Forum" },
+                { href: "/brands", label: "Brands" },
               ].map((link) => (
                 <Link
                   key={link.href}

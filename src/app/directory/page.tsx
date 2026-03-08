@@ -62,7 +62,7 @@ export default function DirectoryPage() {
         <SectionHeader
           kicker="The Archive"
           title="Directory"
-          subtitle="Every composition in the collection — searchable by name, house, or note. Arranged with intention, not algorithm."
+          subtitle="Every composition in the collection — searchable by name, brand, or note. Arranged with intention, not algorithm."
         />
       </div>
 
@@ -75,7 +75,7 @@ export default function DirectoryPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, house, or note…"
+              placeholder="Search by name, brand, or note…"
               className="w-full bg-transparent border border-line/50 px-4 py-3 text-[15px] text-ink-1 placeholder:text-ink-3/50 font-body focus:outline-none focus:border-gold-1/40 transition-colors duration-300"
             />
           </div>
@@ -92,7 +92,7 @@ export default function DirectoryPage() {
                 backgroundPosition: "right 12px center",
               }}
             >
-              <option value="all">All Houses</option>
+              <option value="all">All Brands</option>
               {brands.map((b) => (
                 <option key={b} value={b}>
                   {b}
