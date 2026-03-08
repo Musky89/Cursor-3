@@ -1,7 +1,24 @@
 import fragrancesData from "@/data/fragrances.json";
 import type { Fragrance } from "./types";
 
-const fragrances: Fragrance[] = fragrancesData as Fragrance[];
+function extractPerfumeId(url: string): string | null {
+  const match = url.match(/-(\d+)\.html$/);
+  return match?.[1] ?? null;
+}
+
+function buildPackshotUrl(perfumeId: string): string {
+  return `https://fimgs.net/mdimg/perfume/375x500.${perfumeId}.jpg`;
+}
+
+const fragrances: Fragrance[] = (fragrancesData as Fragrance[]).map((fragrance) => {
+  const perfumeId = extractPerfumeId(fragrance.url);
+  if (!perfumeId) return fragrance;
+
+  return {
+    ...fragrance,
+    imageUrl: buildPackshotUrl(perfumeId),
+  };
+});
 
 export function getAllFragrances(): Fragrance[] {
   return fragrances;
