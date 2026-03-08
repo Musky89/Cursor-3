@@ -177,15 +177,15 @@ body {
 }
 
 .bottle-image {
-  mix-blend-mode: multiply;
-  opacity: 0.94;
-  filter: contrast(0.93) saturate(0.9) brightness(0.96);
+  mix-blend-mode: normal;
+  opacity: 0.98;
+  filter: contrast(0.98) saturate(0.95) brightness(0.98);
 }
 
 .bottle-image-hero {
-  mix-blend-mode: multiply;
-  opacity: 0.95;
-  filter: contrast(0.91) saturate(0.88) brightness(0.97);
+  mix-blend-mode: normal;
+  opacity: 0.98;
+  filter: contrast(0.96) saturate(0.92) brightness(0.98);
 }
 
 /* Atmospheric noise overlay (subtle texture) */
@@ -196,6 +196,16 @@ body {
   z-index: 9999;
   opacity: 0.015;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 768px) {
+  .noise-overlay {
+    opacity: 0.008;
+  }
+
+  .bottle-frame::before {
+    inset: 8%;
+  }
 }
 
 /* Link styling */

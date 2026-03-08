@@ -27,9 +27,9 @@ export default function FragrancePage({ params }: FragrancePageProps) {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-7 md:py-20">
         {/* Breadcrumb */}
-        <nav className="mb-10 flex items-center gap-2 text-[12px] text-ink-3 font-body">
+        <nav className="mb-6 md:mb-10 flex items-center gap-2 text-[11px] md:text-[12px] text-ink-3 font-body">
           <Link
             href="/directory"
             className="hover:text-ink-2 transition-colors"
@@ -42,10 +42,10 @@ export default function FragrancePage({ params }: FragrancePageProps) {
           <span className="text-gold-1/70">{fragrance.name}</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Bottle visual */}
           <div className="lg:col-span-5">
-            <div className="bottle-frame aspect-[3/4] flex items-center justify-center p-10 md:p-14 sticky top-28">
+            <div className="bottle-frame aspect-[3/4] flex items-center justify-center p-6 sm:p-8 md:p-14 lg:sticky lg:top-28">
               <div className="relative w-full h-full flex items-center justify-center bottle-glow">
                 <Image
                   src={fragrance.imageUrl}
@@ -60,7 +60,7 @@ export default function FragrancePage({ params }: FragrancePageProps) {
           </div>
 
           {/* Info column */}
-          <div className="lg:col-span-6 lg:col-start-7 py-4">
+          <div className="lg:col-span-6 lg:col-start-7 py-2 md:py-4">
             {/* House name */}
             <span className="block text-[11px] tracking-editorial uppercase text-gold-1 font-body font-medium mb-4">
               {fragrance.brand}
@@ -72,12 +72,12 @@ export default function FragrancePage({ params }: FragrancePageProps) {
             </h1>
 
             {/* Poetic subtitle */}
-            <p className="font-display text-[1.1rem] text-ink-3 italic mb-10">
+            <p className="font-display text-[1.05rem] text-ink-3 italic mb-8 md:mb-10">
               A study in {poeticNotes.toLowerCase()}
             </p>
 
             {/* Metrics row */}
-            <div className="flex items-center border border-line/40 divide-x divide-line/40 mb-10">
+            <div className="grid grid-cols-3 border border-line/40 divide-x divide-line/40 mb-8 md:mb-10">
               <MetricBadge label="Year" value={fragrance.launchYear} />
               <MetricBadge
                 label="Rating"
@@ -90,7 +90,7 @@ export default function FragrancePage({ params }: FragrancePageProps) {
             </div>
 
             {/* Description */}
-            <div className="mb-10">
+            <div className="mb-8 md:mb-10">
               <h2 className="text-[11px] tracking-editorial uppercase text-ink-3 font-body font-medium mb-4">
                 Composition Notes
               </h2>
@@ -100,7 +100,7 @@ export default function FragrancePage({ params }: FragrancePageProps) {
             </div>
 
             {/* Notes tags */}
-            <div className="mb-10">
+            <div className="mb-8 md:mb-10">
               <h2 className="text-[11px] tracking-editorial uppercase text-ink-3 font-body font-medium mb-4">
                 Olfactive Pyramid
               </h2>

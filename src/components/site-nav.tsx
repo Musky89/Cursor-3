@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -15,10 +15,24 @@ export function SiteNav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500"
+        className="fixed top-0 left-0 right-0 z-[70] transition-colors duration-500"
         style={{
           background:
             "linear-gradient(to bottom, rgba(8,7,6,0.92) 0%, rgba(8,7,6,0.78) 60%, transparent 100%)",
@@ -70,6 +84,7 @@ export function SiteNav() {
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden flex flex-col gap-[5px] p-2"
               aria-label="Toggle navigation"
+              aria-expanded={mobileOpen}
             >
               <span
                 className={`block w-5 h-px bg-ink-2 transition-all duration-300 ${
@@ -89,28 +104,33 @@ export function SiteNav() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-surface-900/98 flex flex-col items-center justify-center gap-8"
+          className="fixed inset-0 z-[60] bg-surface-900 flex items-start justify-center pt-28 px-6"
           onClick={() => setMobileOpen(false)}
         >
-          {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+          <div
+            className="w-full max-w-md border border-line/40 bg-surface-800/95 backdrop-blur-md px-6 py-8 space-y-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
 
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`font-display text-display-md transition-colors duration-300 ${
-                  isActive ? "text-gold-1" : "text-ink-2 hover:text-ink-1"
-                }`}
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block font-display text-[2rem] leading-none transition-colors duration-300 ${
+                    isActive ? "text-gold-1" : "text-ink-2 hover:text-ink-1"
+                  }`}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       )}
     </>
